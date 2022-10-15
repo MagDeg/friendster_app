@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "293286142922",
+    "project_id": "friendster-87cff",
+    "storage_bucket": "friendster-87cff.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:293286142922:android:7ed857a1ee7dbc982ba533",
+        "android_client_info": {
+          "package_name": "de.md.friendster.friendster_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "293286142922-i31hla86celu6914if658rvr0t0o95ab.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCAU_cB9ENDbySu2PnAYUNHQqT00AgMheg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "293286142922-i31hla86celu6914if658rvr0t0o95ab.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
