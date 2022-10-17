@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:friendster_app/authentication/login_page.dart';
 
 class NewAccountPage extends StatefulWidget {
   const NewAccountPage({Key? key}) : super(key: key);
@@ -11,11 +12,13 @@ class _NewAccountPageState extends State<NewAccountPage> {
   final nameController = TextEditingController();
   final mailController = TextEditingController();
   final pinController = TextEditingController();
+  final pinControllerSave = TextEditingController();
   final codeController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Container(
           color: Colors.black,
@@ -35,6 +38,7 @@ class _NewAccountPageState extends State<NewAccountPage> {
                   Container(
                     padding: const EdgeInsets.all(10.0),
                     child: TextField(
+                      textInputAction: TextInputAction.next,
                       style: const TextStyle(color: Colors.white),
                       cursorColor: Colors.white,
                       controller: nameController,
@@ -60,6 +64,7 @@ class _NewAccountPageState extends State<NewAccountPage> {
                   Container(
                     padding: const EdgeInsets.all(10.0),
                     child: TextField(
+                      textInputAction: TextInputAction.next,
                       style: const TextStyle(color: Colors.white),
                       cursorColor: Colors.white,
                       controller: mailController,
@@ -85,6 +90,8 @@ class _NewAccountPageState extends State<NewAccountPage> {
                   Container(
                     padding: const EdgeInsets.all(10.0),
                     child: TextField(
+                      obscureText: true,
+                      textInputAction: TextInputAction.next,
                       style: const TextStyle(color: Colors.white),
                       cursorColor: Colors.white,
                       controller: pinController,
@@ -110,6 +117,34 @@ class _NewAccountPageState extends State<NewAccountPage> {
                   Container(
                     padding: const EdgeInsets.all(10.0),
                     child: TextField(
+                      obscureText: true,
+                      textInputAction: TextInputAction.next,
+                      style: const TextStyle(color: Colors.white),
+                      cursorColor: Colors.white,
+                      controller: pinControllerSave,
+                      decoration: InputDecoration(
+                        focusColor: Colors.white,
+                        fillColor: Colors.white,
+                        iconColor: Colors.white,
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(color: Colors.white, width: 3.0),
+                          borderRadius: BorderRadius.circular(20.0),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(color: Colors.white, width: 3.0),
+                          borderRadius: BorderRadius.circular(20.0),
+                        ),
+                        labelText: "Passwort bestätigen",
+                        labelStyle: const TextStyle(color: Colors.white),
+                        prefixIcon: const Icon(Icons.password, color: Color.fromRGBO(191, 0, 191, 1)),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 25.0),
+                  Container(
+                    padding: const EdgeInsets.all(10.0),
+                    child: TextField(
+                      textInputAction: TextInputAction.done,
                       style: const TextStyle(color: Colors.white),
                       cursorColor: Colors.white,
                       controller: codeController,
@@ -161,7 +196,9 @@ class _NewAccountPageState extends State<NewAccountPage> {
               Align(
                 alignment: Alignment.bottomCenter,
                 child: TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const LoginPage()));
+                  },
                   child: const Text("Ich habe bereits ein Konto!", style: TextStyle(color: Color.fromRGBO(191, 0, 191, 1), fontSize: 20.0), ),
                 ),
               )
