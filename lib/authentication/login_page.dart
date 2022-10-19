@@ -1,5 +1,10 @@
+import 'package:email_validator/email_validator.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:friendster_app/authentication/new_account_page.dart';
+import 'package:friendster_app/authentication/success_login_screen.dart';
+
+import '../main.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -9,7 +14,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final nameController = TextEditingController();
+  final mailController = TextEditingController();
   final pinController = TextEditingController();
 
   @override
@@ -33,15 +38,28 @@ class _LoginPageState extends State<LoginPage> {
                 children: [
                   Container(
                     padding: const EdgeInsets.all(10.0),
-                    child: TextField(
+                    child: TextFormField(
                       textInputAction: TextInputAction.next,
                       style: const TextStyle(color: Colors.white),
                       cursorColor: Colors.white,
-                      controller: nameController,
+                      controller: mailController,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      validator: (email) =>
+                      email != null && !EmailValidator.validate(email)
+                          ? 'Bitte gib eine gültige E-Mail ein!'
+                          : null,
                       decoration: InputDecoration(
                         focusColor: Colors.white,
                         fillColor: Colors.white,
                         iconColor: Colors.white,
+                        border: OutlineInputBorder(
+                          borderSide: const BorderSide(color: Colors.red, width: 3.0),
+                          borderRadius: BorderRadius.circular(20.0),
+                        ),
+                        errorBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(color: Colors.red, width: 3.0),
+                          borderRadius: BorderRadius.circular(20.0),
+                        ),
                         focusedBorder: OutlineInputBorder(
                           borderSide: const BorderSide(color: Colors.white, width: 3.0),
                           borderRadius: BorderRadius.circular(20.0),
@@ -50,7 +68,7 @@ class _LoginPageState extends State<LoginPage> {
                           borderSide: const BorderSide(color: Colors.white, width: 3.0),
                           borderRadius: BorderRadius.circular(20.0),
                         ),
-                        labelText: "Kontoname",
+                        labelText: "E-Mail",
                         labelStyle: const TextStyle(color: Colors.white),
                         prefixIcon: const Icon(Icons.account_circle, color: Color.fromRGBO(191, 0, 191, 1)),
                       ),
@@ -97,7 +115,16 @@ class _LoginPageState extends State<LoginPage> {
                               side: const BorderSide(color: Colors.white)
                           ),
                           onPressed: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => const LoginPage()));
+                            try {
+                              FirebaseAuth.instance.signInWithEmailAndPassword(
+                                  email: mailController.text.trim(),
+                                  password: pinController.text.trim());
+                            } on FirebaseAuthException catch(e) {
+                                Message.showSnackbar(e.message);
+                            }
+                            navigatorKey.currentState!.popUntil((route) => route.isFirst);
+
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => const SuccessLogin('Ihre Anmeldung war erfolgreich!')));
                           },
                           child: const Padding(
                             padding: EdgeInsets.all(10.0),
