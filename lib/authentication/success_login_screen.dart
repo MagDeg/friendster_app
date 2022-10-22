@@ -16,9 +16,12 @@ class SuccessLogin extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(),
-                Text(text, style: const TextStyle(color: Colors.white),),
-                const SizedBox(height: 20.0),
+                SizedBox(
+                  height: 100,
+                    child: Image.asset("assets/images/main_image.png")),
+                const SizedBox(height: 100.0),
+                Text(text, style: const TextStyle(color: Colors.white, fontSize: 20.0),),
+                const SizedBox(height: 50.0),
                 Align(
                   alignment: Alignment.center,
                   child: Container(

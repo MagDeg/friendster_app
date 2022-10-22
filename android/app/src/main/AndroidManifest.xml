@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="de.md.friendster.friendster_app">
    <application
-        android:label="friendster_app"
+        android:label="Friendster"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

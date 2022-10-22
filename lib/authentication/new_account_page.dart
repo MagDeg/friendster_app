@@ -4,6 +4,7 @@ import 'package:friendster_app/authentication/login_page.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:friendster_app/authentication/success_login_screen.dart';
+import 'package:friendster_app/design_samples/text_field_design_dark.dart';
 
 class NewAccountPage extends StatefulWidget {
   const NewAccountPage({Key? key}) : super(key: key);
