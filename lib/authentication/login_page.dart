@@ -114,17 +114,30 @@ class _LoginPageState extends State<LoginPage> {
                               borderRadius: BorderRadius.circular(18.0),
                               side: const BorderSide(color: Colors.white)
                           ),
-                          onPressed: () {
+                          onPressed: () async {
+                            print(mailController.text);
                             try {
-                              FirebaseAuth.instance.signInWithEmailAndPassword(
+                              var signIn = await FirebaseAuth.instance.signInWithEmailAndPassword(
                                   email: mailController.text.trim(),
                                   password: pinController.text.trim());
-                            } on FirebaseAuthException catch(e) {
-                                Message.showSnackbar(e.message);
-                            }
-                            navigatorKey.currentState!.popUntil((route) => route.isFirst);
 
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => const SuccessLogin('Ihre Anmeldung war erfolgreich!')));
+                              signIn;
+
+                                navigatorKey.currentState!.popUntil((route) => route.isFirst);
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => const SuccessLogin('Ihre Anmeldung war erfolgreich!')));
+
+
+
+                            } on FirebaseAuthException catch(e) {
+                              if (mailController.text.isEmpty || pinController.text.isEmpty) {
+                                Message.showSnackbar("Sie haben mindestens ein Feld nicht ausgefüllt! Die Anmeldung ist so nicht möglich!");
+                              } else {
+                                Message.showSnackbar("Ihre angegebenen Daten stimmen nicht mit den gespeicherten Daten überein!");
+                              }
+                              print(e);
+                            }
+
+
                           },
                           child: const Padding(
                             padding: EdgeInsets.all(10.0),

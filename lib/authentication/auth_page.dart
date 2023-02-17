@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:friendster_app/authentication/new_account_page.dart';
+import 'package:friendster_app/authentication/login_page.dart';
+
 
 class AuthPage extends StatefulWidget {
   const AuthPage({Key? key}) : super(key: key);
@@ -37,7 +38,7 @@ class _AuthPageState extends State<AuthPage> {
                               side: const BorderSide(color: Colors.white)
                             ),
                             onPressed: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => const NewAccountPage()));
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => const LoginPage()));
                             },
                             child: const Padding(
                               padding: EdgeInsets.all(10.0),

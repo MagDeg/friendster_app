@@ -26,6 +26,13 @@ class _FriendsterMainState extends State<FriendsterMain> {
     return MaterialApp(
       navigatorKey: navigatorKey,
       scaffoldMessengerKey: Message.messangerKey,
+      theme: ThemeData(
+        brightness: Brightness.light,
+      ),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+      ),
+      themeMode: ThemeMode.system,
       home: Scaffold(
         body: StreamBuilder<User?>(
           stream: FirebaseAuth.instance.authStateChanges(),
