@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:friendster_app/authentication/new_account_page.dart';
 
 class AuthPage extends StatefulWidget {
   const AuthPage({Key? key}) : super(key: key);
@@ -20,7 +21,7 @@ class _AuthPageState extends State<AuthPage> {
                       children: const [
                         SizedBox(height: 20.0),
                         Center(child: SizedBox(height: 50, child: FittedBox( fit: BoxFit.contain, child: Text('Willkommen bei', style: TextStyle(color: Colors.white),),),)),
-                        Center(child: SizedBox(height: 50, child: FittedBox(fit: BoxFit.contain, child: Text('Friendster', style: TextStyle(color: Colors.deepPurpleAccent),),),)),
+                        Center(child: SizedBox(height: 50, child: FittedBox(fit: BoxFit.contain, child: Text('Friendster', style: TextStyle(color: Color.fromRGBO(191, 0, 191, 1)),),),)),
                       ],
                     ),
                     Align(
@@ -35,7 +36,9 @@ class _AuthPageState extends State<AuthPage> {
                               borderRadius: BorderRadius.circular(18.0),
                               side: const BorderSide(color: Colors.white)
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => const NewAccountPage()));
+                            },
                             child: const Padding(
                               padding: EdgeInsets.all(10.0),
                               child: SizedBox(

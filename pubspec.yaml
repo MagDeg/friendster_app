@@ -38,10 +38,20 @@ dependencies:
   cupertino_icons: ^1.0.2
   firebase_auth: ^3.11.2
   firebase_core: ^1.24.0
+  email_validator: ^2.1.17
+  firebase_storage: ^10.3.11
+  cloud_firestore: ^3.5.1
+  flutter_launcher_icons: ^0.10.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/main_image.png"
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -55,7 +65,8 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
-
+  assets:
+    - assets/images/
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
