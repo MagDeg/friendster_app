@@ -226,7 +226,7 @@ class _NewAccountPageState extends State<NewAccountPage> {
                                       password: pinController.text.trim());
                                   FirebaseFirestore.instance.collection('_userMails').doc(mailController.text).set({'none' : "" });
                                   FirebaseFirestore.instance.collection('_userData').doc(FirebaseAuth.instance.currentUser?.uid.toString()).set({'name' : nameController.text});
-
+                                  Navigator.pop(context);
                                   Navigator.pop(context);
                                   Navigator.push(context, MaterialPageRoute(builder: (context) => const SuccessLogin('Ihr Konto wurde erfolgreich erstellt!')));
                                 } else {
