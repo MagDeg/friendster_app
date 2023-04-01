@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:friendster_app/authentication/new_account_page.dart';
 import 'package:friendster_app/authentication/success_login_screen.dart';
 
-import '../main.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -123,7 +122,9 @@ class _LoginPageState extends State<LoginPage> {
 
                               signIn;
 
-                                navigatorKey.currentState!.popUntil((route) => route.isFirst);
+                                //navigatorKey.currentState!.popUntil((route) => route.isFirst);
+                                Navigator.pop(context);
+
                                 Navigator.push(context, MaterialPageRoute(builder: (context) => const SuccessLogin('Ihre Anmeldung war erfolgreich!')));
 
 

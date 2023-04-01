@@ -38,6 +38,7 @@ class _AuthPageState extends State<AuthPage> {
                               side: const BorderSide(color: Colors.white)
                             ),
                             onPressed: () {
+                              Navigator.pop(context);
                               Navigator.push(context, MaterialPageRoute(builder: (context) => const LoginPage()));
                             },
                             child: const Padding(

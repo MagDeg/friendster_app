@@ -227,6 +227,7 @@ class _NewAccountPageState extends State<NewAccountPage> {
                                   FirebaseFirestore.instance.collection('_userMails').doc(mailController.text).set({'none' : "" });
                                   FirebaseFirestore.instance.collection('_userData').doc(FirebaseAuth.instance.currentUser?.uid.toString()).set({'name' : nameController.text});
 
+                                  Navigator.pop(context);
                                   Navigator.push(context, MaterialPageRoute(builder: (context) => const SuccessLogin('Ihr Konto wurde erfolgreich erstellt!')));
                                 } else {
                                   Message.showSnackbar('Der Zugangscode ist ungültig!');

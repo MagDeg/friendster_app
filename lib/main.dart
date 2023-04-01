@@ -10,7 +10,26 @@ final navigatorKey = GlobalKey<NavigatorState>();
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(const FriendsterMain());
+  runApp(MaterialApp(
+      routes: {
+        '/main' : (_) => MainScreen(),
+        '/firstPage' : (_) => FriendsterMain(),
+        '/auth' : (_) => AuthPage(),
+      }
+
+      ,
+      navigatorKey: navigatorKey,
+      scaffoldMessengerKey: Message.messangerKey,
+      theme: ThemeData(
+        brightness: Brightness.light,
+      ),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+      ),
+      themeMode: ThemeMode.dark,
+      home: FriendsterMain()
+  )
+  );
 }
 
 class FriendsterMain extends StatefulWidget {
@@ -21,30 +40,30 @@ class FriendsterMain extends StatefulWidget {
 }
 
 class _FriendsterMainState extends State<FriendsterMain> {
+
+  @override
+  void initState() {
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      navigatorKey: navigatorKey,
-      scaffoldMessengerKey: Message.messangerKey,
-      theme: ThemeData(
-        brightness: Brightness.light,
-      ),
-      darkTheme: ThemeData(
-        brightness: Brightness.dark,
-      ),
-      themeMode: ThemeMode.system,
-      home: Scaffold(
+    return Scaffold(
         body: StreamBuilder<User?>(
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (context, snapshot) {
             if(snapshot.hasData) {
-              return const MainScreen();
+
+              return MainScreen();
             } else {
-              return const AuthPage();
+
+              return AuthPage();
             }
           },
         )
-      ),
     );
   }
 }
+
+
