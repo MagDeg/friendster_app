@@ -1,0 +1,1 @@
+String idGlobal = '1';

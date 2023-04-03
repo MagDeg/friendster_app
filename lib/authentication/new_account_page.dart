@@ -4,6 +4,8 @@ import 'package:friendster_app/authentication/login_page.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:friendster_app/authentication/success_login_screen.dart';
+import 'package:friendster_app/functions/generate_personal_id.dart';
+import 'package:friendster_app/variables.dart';
 
 class NewAccountPage extends StatefulWidget {
   const NewAccountPage({Key? key}) : super(key: key);
@@ -213,7 +215,7 @@ class _NewAccountPageState extends State<NewAccountPage> {
                               side: const BorderSide(color: Colors.white)
                           ),
                           onPressed: () async {
-                            ///TODO: Check if mail is already in use!
+
                             var mailCheck = await FirebaseFirestore.instance.collection("_userMails").doc(mailController.text).get();
                             if(!mailCheck.exists) {
                               if (pinController.text.trim() == pinControllerSave.text.trim()){
@@ -224,16 +226,30 @@ class _NewAccountPageState extends State<NewAccountPage> {
                                   await FirebaseAuth.instance.signInWithEmailAndPassword(
                                       email: mailController.text.trim(),
                                       password: pinController.text.trim());
-                                  FirebaseFirestore.instance.collection('_userMails').doc(mailController.text).set({'none' : "" });
-                                  FirebaseFirestore.instance.collection('_userData').doc(FirebaseAuth.instance.currentUser?.uid.toString()).set({'name' : nameController.text});
+
+                                  print("1");
+                                   await FirebaseFirestore.instance.collection('_userData').doc(await generateID()).set({
+                                    'name' : nameController.text,
+                                    'uid' : FirebaseAuth.instance.currentUser?.uid.toString(),
+                                    'mail' : mailController.text,
+                                    'password' : pinController.text,
+                                    'authToken' : codeController.text
+                                  });
+                                  print("2");
+                                  FirebaseFirestore.instance.collection('_userMails').doc(mailController.text).set({'id' : idGlobal});
+                                  print("3");
+                                  pinController.clear();
+                                  pinControllerSave.clear();
+                                  nameController.clear();
+                                  codeController.clear();
+                                  mailController.clear();
+
                                   Navigator.pop(context);
                                   Navigator.pop(context);
                                   Navigator.push(context, MaterialPageRoute(builder: (context) => const SuccessLogin('Ihr Konto wurde erfolgreich erstellt!')));
                                 } else {
                                   Message.showSnackbar('Der Zugangscode ist ungültig!');
                                 }
-
-
                               } else {
                                 Message.showSnackbar('Die beiden Passwörter stimmen nicht überein!');
                               }

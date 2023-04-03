@@ -1,8 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:friendster_app/authentication/new_account_page.dart';
 import 'package:friendster_app/authentication/success_login_screen.dart';
+import 'package:friendster_app/functions/shared_preferences.dart';
+import 'package:friendster_app/variables.dart';
 
 
 class LoginPage extends StatefulWidget {
@@ -15,6 +18,8 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final mailController = TextEditingController();
   final pinController = TextEditingController();
+
+  ///TODO: NutzerID ebenfalls beim Login Abfragen???
 
   @override
   Widget build(BuildContext context) {
@@ -136,8 +141,10 @@ class _LoginPageState extends State<LoginPage> {
                               }
                               print(e);
                             }
-
-
+                            final data = await FirebaseFirestore.instance.collection('_userMails').doc(mailController.text).get();
+                            idGlobal = data['id'].toString();
+                            print(idGlobal);
+                            await setPrefNew(idGlobal);
                           },
                           child: const Padding(
                             padding: EdgeInsets.all(10.0),

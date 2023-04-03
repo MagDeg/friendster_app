@@ -1,4 +1,4 @@
-def localProperties = new Properties()
+def localProperties = Properties()
 def localPropertiesFile = rootProject.file('local.properties')
 if (localPropertiesFile.exists()) {
     localPropertiesFile.withReader('UTF-8') { reader ->
@@ -29,7 +29,7 @@ apply plugin: 'com.google.gms.google-services'
 
 
 android {
-    compileSdkVersion flutter.compileSdkVersion
+    compileSdkVersion 33
     ndkVersion flutter.ndkVersion
 
     compileOptions {
@@ -47,13 +47,13 @@ android {
 
     defaultConfig {
         applicationId "de.md.friendster.friendster_app"
-        minSdkVersion 21
-        targetSdkVersion 32
+        minSdkVersion 30
+        targetSdkVersion 30
         /if error occurs change targetSdkVersion from 32 to 30/
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         multiDexEnabled true
-        compileSdkVersion 32
+        compileSdkVersion 33
     }
 
     buildTypes {
