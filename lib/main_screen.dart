@@ -30,27 +30,20 @@ class _MainScreenState extends State<MainScreen> {
         body: StreamBuilder(
             stream: FirebaseFirestore.instance.collection("_userData").doc(idGlobal).collection('_chats').snapshots(),
             builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-              //var datas = FirebaseFirestore.instance.collection("_userData").doc(idGlobal).collection("_chats");
+              var datas = FirebaseFirestore.instance.collection("_userData").doc(idGlobal).collection("_chats");
 
-              final entrys = snapshot.data!.docs;
 
-              print(entrys.length);
 
               if (!snapshot.hasData) {
                 return CircularProgressIndicator();
               } else {
                 return ListView(
                   children: snapshot.data!.docs.map((data) {
-                    return ListView.builder(
-                        itemCount: entrys.length,
-                        itemBuilder: (context, i) {
-                          for(int i = 0; i <= entrys.length; i++) {
-                            return ListTileSample('1', '1');
 
-                            ///TODO: CONTINUE!!!
-                          }
-                          return Container();
-                        });
+                    print(data['sender']);
+                    print(data['senderID']);
+
+                    return ListTileSample(data['senderID'], data['sender']);
 
                   }).toList(),
                 );

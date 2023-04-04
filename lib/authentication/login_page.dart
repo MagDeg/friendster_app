@@ -19,8 +19,6 @@ class _LoginPageState extends State<LoginPage> {
   final mailController = TextEditingController();
   final pinController = TextEditingController();
 
-  ///TODO: NutzerID ebenfalls beim Login Abfragen???
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
