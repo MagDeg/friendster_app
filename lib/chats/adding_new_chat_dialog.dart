@@ -115,16 +115,18 @@ class _AddChatState extends State<AddChat> {
                         side: const BorderSide(color: Colors.white)
                     ),
                     onPressed: () async {
-                      var sender = await FirebaseFirestore.instance.collection("_userData").doc(idGlobal).get();
+                      var senderRef = await FirebaseFirestore.instance.collection("_userData").doc(idGlobal).get();
 
+                      String sender = senderRef['name'];
+                      
                       var data = await FirebaseFirestore.instance.collection('_userData').doc(targetId.text).get();
                       if(data.exists) {
                         if (data['name'] == targetName.text) {
-                          FirebaseFirestore.instance.collection('_userData').doc(targetId.text).collection(idGlobal).doc('msg0').set({'state' : 'init'});
-                          FirebaseFirestore.instance.collection('_userData').doc(idGlobal).collection(targetId.text).doc('msg0').set({'state' : 'init'});
-
-                          FirebaseFirestore.instance.collection('_userData').doc(targetId.text).collection('_chats').doc(idGlobal).set({'name' : sender['name']});
-                          FirebaseFirestore.instance.collection('_userData').doc(idGlobal).collection('_chats').doc(targetId.text).set({'name' : targetName.text});
+                          FirebaseFirestore.instance.collection('_userData').doc(targetId.text).collection(idGlobal).doc('msg0').set({'content' : 'Der Nutzer $sender hat mit ihnen einen Chat gestartet!', 'send' : false});
+                          FirebaseFirestore.instance.collection('_userData').doc(idGlobal).collection(targetId.text).doc('msg0').set({'content' : 'Sie haben mit dem Nutzer ' + targetName.text + ' einen Chat gestartet!', 'send' : true});
+                          print("genNewFields");
+                          FirebaseFirestore.instance.collection('_userData').doc(targetId.text).collection('_chats').doc(idGlobal).set({'sender' : senderRef['name'], 'senderID' : idGlobal});
+                          FirebaseFirestore.instance.collection('_userData').doc(idGlobal).collection('_chats').doc(targetId.text).set({'sender' : targetName.text, 'senderID' : targetId.text});
 
                           Navigator.pop(context);
                         } else {

@@ -20,12 +20,15 @@ class _ChatHistoryState extends State<ChatHistory> {
 
   int docListAmount = 0;
 
+  late var docs;
+
   Future<void> getDocListAmount(String id) async {
     final data = await FirebaseFirestore.instance.collection("_userData").doc(idGlobal).collection(id).get();
     setState(() {
       docListAmount = data.docs.length;
     });
     print(docListAmount);
+    docs = data;
   }
 
   @override
@@ -36,16 +39,41 @@ class _ChatHistoryState extends State<ChatHistory> {
 
   @override
   Widget build(BuildContext context)  {
-    if (docListAmount != 0) {
-      print('in');
-      for (int i = 0; i <= docListAmount; i++ ) {
-
-      }
-    }
 
 
 
-    return Container();
+    return StreamBuilder(
+        stream: FirebaseFirestore.instance.collection('_userData').doc(idGlobal).collection(id).snapshots(),
+        builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if(!snapshot.hasData) {
+            return CircularProgressIndicator();
+          } else
+            return ListView(
+              children: snapshot.data!.docs.map((data) {
+                print(data['content']);
+
+              double width = MediaQuery.of(context).size.width;
+
+              return Align(
+                alignment: data['send'] ? Alignment.centerRight : Alignment.centerLeft,
+                child: Container(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8.0),
+                      color: Colors.purpleAccent
+                    ),
+                    width: width/2,
+                    child: ListTile(
+                      title: Text(data['content']),
+                    ),
+                  ),
+                ),
+              );
+
+            }).toList(),
+          );
+        });
   }
 }
 

@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:friendster_app/chats/adding_new_chat_dialog.dart';
-import 'package:friendster_app/design_samples/list_tile.dart';
+import 'package:friendster_app/design_samples/list_tile_chats.dart';
 import 'package:friendster_app/variables.dart';
 
 class MainScreen extends StatefulWidget {
@@ -30,7 +30,7 @@ class _MainScreenState extends State<MainScreen> {
         body: StreamBuilder(
             stream: FirebaseFirestore.instance.collection("_userData").doc(idGlobal).collection('_chats').snapshots(),
             builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-              var datas = FirebaseFirestore.instance.collection("_userData").doc(idGlobal).collection("_chats");
+              // var datas = FirebaseFirestore.instance.collection("_userData").doc(idGlobal).collection("_chats");
 
 
 

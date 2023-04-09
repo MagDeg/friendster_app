@@ -119,15 +119,15 @@ class _LoginPageState extends State<LoginPage> {
                           onPressed: () async {
                             print(mailController.text);
                             try {
+
                               var signIn = await FirebaseAuth.instance.signInWithEmailAndPassword(
                                   email: mailController.text.trim(),
                                   password: pinController.text.trim());
 
                               signIn;
 
-                                //navigatorKey.currentState!.popUntil((route) => route.isFirst);
-                                Navigator.pop(context);
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => const SuccessLogin('Ihre Anmeldung war erfolgreich!')));
+                              Navigator.pop(context);
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => const SuccessLogin('Ihre Anmeldung war erfolgreich!')));
 
 
 

@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:friendster_app/chats/single_chatpage/chat_history.dart';
+import 'package:friendster_app/variables.dart';
 
 class SingleChatPage extends StatefulWidget {
 
@@ -16,6 +18,18 @@ class _SingleChatPageState extends State<SingleChatPage> {
 
   String name;
   String id;
+
+  final msgController = TextEditingController();
+
+
+
+  Future<int> getDocListAmount(String id) async {
+    final data = await FirebaseFirestore.instance.collection("_userData").doc(idGlobal).collection(id).get();
+
+    return data.docs.length;
+
+
+  }
 
   _SingleChatPageState(this.name, this.id);
 
@@ -42,7 +56,55 @@ class _SingleChatPageState extends State<SingleChatPage> {
         ],
       ),
       body: ChatHistory(id, name),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.purple,
+        onPressed: () {
+          showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                content: Form(
+                  child: Container(
+                    width: MediaQuery.of(context).size.width * 0.8,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text('Geben sie ihre Nachicht ein.'),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: TextFormField(
+                                controller: msgController,
+                              ),
+                            ),
+                            Container(
+                              width: 40.0,
+                              child: FloatingActionButton(
 
+                                  onPressed: () async {
+                                    final db = FirebaseFirestore.instance.collection('_userData');
+
+                                    int amount = await getDocListAmount(id);
+
+                                    db.doc(idGlobal).collection(id).doc('msg' + amount.toString()).set({'content' : msgController.text, 'send' : true});
+                                    db.doc(id).collection(idGlobal).doc().set({'content' : msgController.text, 'send' : false});
+
+                                    msgController.clear();
+                                    Navigator.pop(context);
+
+                                    },
+                                  child: Icon(Icons.send),
+                              ),
+                            )
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ));
+        },
+        child: Icon(Icons.send),
+      ),
     );
   }
 }
