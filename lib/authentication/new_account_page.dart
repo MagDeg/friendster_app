@@ -227,8 +227,9 @@ class _NewAccountPageState extends State<NewAccountPage> {
                                       email: mailController.text.trim(),
                                       password: pinController.text.trim());
 
-                                  print("1");
-                                   await FirebaseFirestore.instance.collection('_userData').doc(await generateID()).set({
+                                  late String id;
+                                  id = await generateID();
+                                   await FirebaseFirestore.instance.collection('_userData').doc(await id).set({
                                     'name' : nameController.text,
                                     'uid' : FirebaseAuth.instance.currentUser?.uid.toString(),
                                     'mail' : mailController.text,
@@ -236,7 +237,7 @@ class _NewAccountPageState extends State<NewAccountPage> {
                                     'authToken' : codeController.text
                                   });
                                   print("2");
-                                  FirebaseFirestore.instance.collection('_userMails').doc(mailController.text).set({'id' : idGlobal});
+                                  await FirebaseFirestore.instance.collection('_userMails').doc(mailController.text).set({'id' : await id});
                                   print("3");
                                   pinController.clear();
                                   pinControllerSave.clear();

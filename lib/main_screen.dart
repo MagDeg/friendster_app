@@ -25,6 +25,7 @@ class _MainScreenState extends State<MainScreen> {
               IconButton(
                   onPressed: () {
                     FirebaseAuth.instance.signOut();
+                    idGlobal = "0";
                     },
                   icon: Icon(Icons.account_circle, size: 35, color: Colors.white,))]),
         body: StreamBuilder(

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:friendster_app/design_samples/list_tile_single_message.dart';
 import 'package:friendster_app/variables.dart';
 
 class ChatHistory extends StatefulWidget {
@@ -22,6 +23,8 @@ class _ChatHistoryState extends State<ChatHistory> {
 
   late var docs;
 
+  final listViewScrollController = ScrollController();
+
   Future<void> getDocListAmount(String id) async {
     final data = await FirebaseFirestore.instance.collection("_userData").doc(idGlobal).collection(id).get();
     setState(() {
@@ -40,16 +43,17 @@ class _ChatHistoryState extends State<ChatHistory> {
   @override
   Widget build(BuildContext context)  {
 
-
-
     return StreamBuilder(
-        stream: FirebaseFirestore.instance.collection('_userData').doc(idGlobal).collection(id).snapshots(),
+        stream: FirebaseFirestore.instance.collection('_userData').doc(idGlobal).collection(id).orderBy('date', descending: true).snapshots(),
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if(!snapshot.hasData) {
             return CircularProgressIndicator();
           } else
+
             return ListView(
-              children: snapshot.data!.docs.map((data) {
+                reverse: true,
+
+                children: snapshot.data!.docs.map((data) {
                 print(data['content']);
 
               double width = MediaQuery.of(context).size.width;
@@ -61,12 +65,10 @@ class _ChatHistoryState extends State<ChatHistory> {
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8.0),
-                      color: Colors.purpleAccent
+                      //color: Colors.purpleAccent
                     ),
                     width: width/2,
-                    child: ListTile(
-                      title: Text(data['content']),
-                    ),
+                    child: SingleMessage(data['content'], data['send']),
                   ),
                 ),
               );

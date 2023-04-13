@@ -122,8 +122,8 @@ class _AddChatState extends State<AddChat> {
                       var data = await FirebaseFirestore.instance.collection('_userData').doc(targetId.text).get();
                       if(data.exists) {
                         if (data['name'] == targetName.text) {
-                          FirebaseFirestore.instance.collection('_userData').doc(targetId.text).collection(idGlobal).doc('msg0').set({'content' : 'Der Nutzer $sender hat mit ihnen einen Chat gestartet!', 'send' : false});
-                          FirebaseFirestore.instance.collection('_userData').doc(idGlobal).collection(targetId.text).doc('msg0').set({'content' : 'Sie haben mit dem Nutzer ' + targetName.text + ' einen Chat gestartet!', 'send' : true});
+                          FirebaseFirestore.instance.collection('_userData').doc(targetId.text).collection(idGlobal).doc('msg0').set({'content' : 'Der Nutzer $sender hat mit ihnen einen Chat gestartet!', 'send' : false, 'date' : DateTime.now()});
+                          FirebaseFirestore.instance.collection('_userData').doc(idGlobal).collection(targetId.text).doc('msg0').set({'content' : 'Sie haben mit dem Nutzer ' + targetName.text + ' einen Chat gestartet!', 'send' : true, 'date' : DateTime.now()});
                           print("genNewFields");
                           FirebaseFirestore.instance.collection('_userData').doc(targetId.text).collection('_chats').doc(idGlobal).set({'sender' : senderRef['name'], 'senderID' : idGlobal});
                           FirebaseFirestore.instance.collection('_userData').doc(idGlobal).collection('_chats').doc(targetId.text).set({'sender' : targetName.text, 'senderID' : targetId.text});

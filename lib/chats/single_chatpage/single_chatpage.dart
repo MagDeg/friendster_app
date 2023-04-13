@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:friendster_app/chats/single_chatpage/chat_history.dart';
 import 'package:friendster_app/variables.dart';
 
@@ -55,56 +56,79 @@ class _SingleChatPageState extends State<SingleChatPage> {
               icon: Icon(Icons.account_circle)),
         ],
       ),
-      body: ChatHistory(id, name),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.purple,
-        onPressed: () {
-          showDialog(
-              context: context,
-              builder: (context) => AlertDialog(
-                content: Form(
-                  child: Container(
-                    width: MediaQuery.of(context).size.width * 0.8,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text('Geben sie ihre Nachicht ein.'),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: TextFormField(
-                                controller: msgController,
-                              ),
+      body: GestureDetector(
+        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+        child: Column(
+          children: [
+            Expanded(child: ChatHistory(id, name)),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Container(
+                padding: EdgeInsets.all(8.0),
+                height: 80.0,
+                child: Container(
+                  padding: EdgeInsets.all(8.0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8.0),
+                    color: Colors.white10
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Align(
+                          alignment: Alignment.topCenter,
+                          child: Container(
+                            padding: EdgeInsets.zero,
+                            child: ListView(
+                              scrollDirection: Axis.vertical,
+                              padding: EdgeInsets.zero,
+                              children: [
+                                TextFormField(
+                                  textInputAction: TextInputAction.done,
+                                  maxLines: null,
+                                  autofocus: false,
+                                  decoration: InputDecoration(
+                                    contentPadding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+                                    isDense: true,
+                                    floatingLabelBehavior: FloatingLabelBehavior.never,
+                                    alignLabelWithHint: true,
+                                    labelText: 'Nachricht',
+                                    border: InputBorder.none,
+                                  ),
+                                  controller: msgController,
+                                ),
+                              ],
                             ),
-                            Container(
-                              width: 40.0,
-                              child: FloatingActionButton(
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: 40.0,
+                        child: FloatingActionButton(
 
-                                  onPressed: () async {
-                                    final db = FirebaseFirestore.instance.collection('_userData');
+                          onPressed: () async {
+                            final db = FirebaseFirestore.instance.collection('_userData');
 
-                                    int amount = await getDocListAmount(id);
+                            int amount = await getDocListAmount(id);
 
-                                    db.doc(idGlobal).collection(id).doc('msg' + amount.toString()).set({'content' : msgController.text, 'send' : true});
-                                    db.doc(id).collection(idGlobal).doc().set({'content' : msgController.text, 'send' : false});
+                            db.doc(idGlobal).collection(id).doc('msg' + amount.toString()).set({'content' : msgController.text, 'send' : true, 'date' : DateTime.now()});
+                            db.doc(id).collection(idGlobal).doc('msg' + amount.toString()).set({'content' : msgController.text, 'send' : false, 'date' : DateTime.now()});
 
-                                    msgController.clear();
-                                    Navigator.pop(context);
+                            msgController.clear();
 
-                                    },
-                                  child: Icon(Icons.send),
-                              ),
-                            )
-                          ],
-                        )
-                      ],
-                    ),
+                          },
+                          child: Icon(Icons.send),
+                        ),
+                      )
+                    ],
                   ),
                 ),
-              ));
-        },
-        child: Icon(Icons.send),
+              ),
+            )
+          ],
+        ),
       ),
+      
     );
   }
 }
