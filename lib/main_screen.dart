@@ -1,10 +1,13 @@
 
 
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:friendster_app/chats/adding_new_chat_dialog.dart';
 import 'package:friendster_app/design_samples/list_tile_chats.dart';
+import 'package:friendster_app/functions/shared_preferences.dart';
 import 'package:friendster_app/variables.dart';
 
 class MainScreen extends StatefulWidget {
@@ -17,6 +20,10 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
+    if (idGlobal == "1") {
+
+    }
+
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(title: Text('Friendster', style: TextStyle(color: Colors.purple),),

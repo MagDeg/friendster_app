@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:friendster_app/authentication/new_account_page.dart';
 import 'package:friendster_app/variables.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'authentication/auth_page.dart';
 import 'main_screen.dart';
 import 'package:friendster_app/functions/shared_preferences.dart';
@@ -44,12 +45,21 @@ class FriendsterMain extends StatefulWidget {
 
 class _FriendsterMainState extends State<FriendsterMain> {
 
+  Future<void> getPref() async{
+    final prefs = await SharedPreferences.getInstance();
+    String id = await prefs.getString('id').toString();
+    setState(() {
+      idGlobal = id;
+      print('got pref');
+      print(idGlobal);
+    });
 
+
+  }
 
   @override
   void initState() {
     getPref();
-    print(idGlobal);
     super.initState();
   }
 
@@ -60,7 +70,9 @@ class _FriendsterMainState extends State<FriendsterMain> {
     return Scaffold(
         body: StreamBuilder<User?>(
           stream: FirebaseAuth.instance.authStateChanges(),
-          builder: (context, snapshot) {
+          builder: (context, snapshot)  {
+
+
             if(snapshot.hasData) {
 
               return MainScreen();
